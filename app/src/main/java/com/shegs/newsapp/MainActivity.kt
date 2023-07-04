@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shegs.newsapp.adapter.RecyclerAdapter
@@ -31,6 +32,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         makeAPIRequest()
+    }
+
+    private fun fadeInFromBlack(){
+        val v_blackScreen = findViewById<View>(R.id.v_blackScreen)
+        v_blackScreen.animate().apply {
+            alpha(0f)
+            duration = 3000
+        }.start()
     }
 
     @SuppressLint("ResourceType")
@@ -65,6 +74,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 withContext(Dispatchers.Main){
                     setUpRecyclerView()
+                    fadeInFromBlack()
                 }
 
             }catch (e:Exception){
