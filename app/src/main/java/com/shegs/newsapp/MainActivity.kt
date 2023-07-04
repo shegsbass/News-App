@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shegs.newsapp.adapter.RecyclerAdapter
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeAPIRequest(){
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
 
         val api = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -75,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main){
                     setUpRecyclerView()
                     fadeInFromBlack()
+                    progressBar.visibility = View.GONE
                 }
 
             }catch (e:Exception){
