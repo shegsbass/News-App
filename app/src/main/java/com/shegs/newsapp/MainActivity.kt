@@ -2,6 +2,10 @@ package com.shegs.newsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,5 +26,17 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(APIRequest::class.java)
+
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = api.getNews()
+
+                for (article in response.articles){
+                    Log.i("MainActivity", "Result = $article")
+                }
+            }catch (e:Exception){
+                Log.e("MainActivity", e.toString())
+            }
+        }
     }
 }
