@@ -83,7 +83,26 @@ class MainActivity : AppCompatActivity() {
 
             }catch (e:Exception){
                 Log.e("MainActivity", e.toString())
+
+                withContext(Dispatchers.Main){
+                    attemptRequestAgain()
+                }
             }
         }
+    }
+
+    private fun attemptRequestAgain(){
+        countDownTimer = object: CountDownTimer(5*1000, 1000){
+            override fun onTick(millisUntilFinished: Long) {
+                Log.i("MainActivity", "Could not retrieve data... trying again in ${millisUntilFinished/1000} seconds")
+            }
+
+            override fun onFinish() {
+                makeAPIRequest()
+                countDownTimer.cancel()
+            }
+
+        }
+        countDownTimer.start()
     }
 }
